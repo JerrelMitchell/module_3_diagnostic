@@ -1,4 +1,4 @@
-class StationSerializer
+class Station
   attr_reader :name, :address, :fuel_types, :distance, :access_times
   def initialize(attrs)
     @name = attrs[:station_name]

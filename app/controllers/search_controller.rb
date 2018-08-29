@@ -9,6 +9,8 @@ class SearchController < ApplicationController
 
     response = @conn.get("/api/alt-fuel-stations//v1/nearest.json?location=#{zip}&radius=6&fuel_type=ELEC,LPG&limit=10")
 
-    @stations = JSON.parse(response.body, symbolize_names: true)[:fuel_stations]
+    stations_data = JSON.parse(response.body, symbolize_names: true)[:fuel_stations]
+
+    @stations = StationService.new(stations_data).stations
   end
 end
