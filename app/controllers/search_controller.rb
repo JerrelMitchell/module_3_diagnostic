@@ -1,14 +1,14 @@
 class SearchController < ApplicationController
   def index
-    zip = params[:zip]
+    zip = params[:q]
 
-    @conn = Faraday.new(url: "https://nrel.gov") do |faraday|
-      faraday.headers["api_key"] = "E4uQDdiWAn5CyHH7zDzCQKSbA93h77EbeikhzKiN"
+    @conn = Faraday.new(url: "https://developer.nrel.gov") do |faraday|
+      faraday.headers["X-Api-Key"] = "E4uQDdiWAn5CyHH7zDzCQKSbA93h77EbeikhzKiN"
       faraday.adapter Faraday.default_adapter
     end
 
-    response = @conn.get("/api/alt-fuel-stations/v1/nearest.json?zip=#{zip}")
+    response = @conn.get("/api/alt-fuel-stations//v1/nearest.json?location=#{zip}&radius=6&fuel_type=ELEC,LPG&limit=10")
 
-    @stations = JSON.parse(response.body, symbolize_names: true)[:results]
+    @stations = JSON.parse(response.body, symbolize_names: true)[:fuel_stations]
   end
 end
